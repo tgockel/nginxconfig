@@ -19,3 +19,6 @@
 *.exe
 *.out
 *.app
+
+# Project files
+*.kdev4
