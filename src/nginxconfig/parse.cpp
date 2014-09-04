@@ -8,6 +8,21 @@
  *
  *  \author Travis Gockel (travis@gockelhut.com)
 **/
+#include <nginxconfig/config.hpp>
+
+#ifndef NGINXCONFIG_DEBUG
+#   define NGINXCONFIG_DEBUG 0
+#endif
+
+/** \def NGINXCONFIG_USE_BOOST_REGEX
+ *  Should the parser use the regex implementation from Boost instead of the C++ Standard Library? GCC versions below
+ *  4.8 will happy compile regular expressions, but will fail at runtime, so this must be set if you are using GCC under
+ *  4.9!
+**/
+#ifndef NGINXCONFIG_USE_BOOST_REGEX
+#   define NGINXCONFIG_USE_BOOST_REGEX 0
+#endif
+
 #include <nginxconfig/ast.hpp>
 #include <nginxconfig/parse.hpp>
 #include <nginxconfig/parse_types.hpp>
@@ -15,18 +30,24 @@
 #include <algorithm>
 #include <cassert>
 #include <fstream>
-#include <regex>
 #include <sstream>
-
-#ifndef NGINXCONFIG_DEBUG
-#   define NGINXCONFIG_DEBUG 0
-#endif
 
 #if NGINXCONFIG_DEBUG
 #   include <iostream>
 #   define NGINXCONFIG_DEBUG_PRINT(x) std::cerr << x << std::endl;
 #else
 #   define NGINXCONFIG_DEBUG_PRINT(x)
+#endif
+
+#if NGINXCONFIG_USE_BOOST_REGEX
+#   include <boost/regex.hpp>
+#else
+#   ifdef __GNUC__
+#       if (__GNUC__ == 4) && (__GNUC_MINOR__ < 9)
+#           error "Cannot use Standard Library regex implementation with GCC < 4.9! Please compile with NGINXCONFIG_USE_BOOST_REGEX=1."
+#       endif
+#   endif
+#   include <regex>
 #endif
 
 namespace nginxconfig
@@ -100,6 +121,18 @@ ast_entry::attribute_list split_attributes(const std::string& attrs)
 
 line_components line_components::create_from_line(const std::string& line)
 {
+    #if NGINXCONFIG_USE_BOOST_REGEX
+    using regex = boost::regex;
+    using smatch = boost::smatch;
+    using boost::regex_match;
+    namespace regex_constants = boost::regex_constants;
+    #else
+    using regex = std::regex;
+    using smatch = std::smatch;
+    using std::regex_match;
+    namespace regex_constants = std::regex_constants;
+    #endif
+    
     // All lines follow the same basic format:
     //  0) whole match
     //  1) name
@@ -107,12 +140,13 @@ line_components line_components::create_from_line(const std::string& line)
     //  3) either {, } or ;
     //  4) comment including #
     //  5) comment not including #
-    static const std::regex line_regex(R"([ \t]*([A-Za-z_][A-Za-z0-9_]*)?[ \t]*([^{};#]*)([{};]?)[ \t]*(#(.*))?)",
-                            std::regex_constants::ECMAScript | std::regex_constants::optimize);
+    static const regex line_regex(R"([ \t]*([A-Za-z_][A-Za-z0-9_]*)?[ \t]*([^{};#]*)([{};]?)[ \t]*(#(.*))?)",
+                                  regex_constants::syntax_option_type(regex_constants::ECMAScript | regex_constants::optimize)
+                                 );
     
-    std::smatch results;
+    smatch results;
     line_components out;
-    if (std::regex_match(line, results, line_regex))
+    if (regex_match(line, results, line_regex))
     {
         #if NGINXCONFIG_DEBUG
         NGINXCONFIG_DEBUG_PRINT("REGEX MATCH sz=" << results.size());

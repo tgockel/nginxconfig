@@ -54,6 +54,26 @@ $(foreach extension,$(MAKEFILE_EXTENSIONS),$(eval $(call MAKEFILE_EXTENSION_TEMP
 
 NGINXCONFIG_VERSION = 0.1.1
 
+################################################################################
+# Configuration                                                                #
+################################################################################
+
+# def: USE_BOOST_REGEX
+# Controls the variable NGINXCONFIG_USE_BOOST_REGEX (see C++ documentation).
+USE_BOOST_REGEX ?= 0
+
+# def: BOOST_REGEX_LIB
+# The library flag used to link to if USE_BOOST_REGEX is 1.
+BOOST_REGEX_LIB ?= -lboost_regex
+
+# def: BOOST_SYSTEM_LIB
+# The library flag used to link to if USE_BOOST_REGEX is 1.
+BOOST_SYSTEM_LIB ?= -lboost_system
+
+################################################################################
+# Build Paths                                                                  #
+################################################################################
+
 ifeq ($(.DEFAULT_GOAL),)
   .DEFAULT_GOAL := nginxconfig
 endif
@@ -92,6 +112,30 @@ $(foreach dep,$(DEP_FILES),$(eval -include $(dep)))
 LIBRARIES = $(patsubst $(SRC_DIR)/%,%,$(wildcard $(SRC_DIR)/*))
 TESTS     = $(filter %-tests,$(LIBRARIES))
 
+################################################################################
+# Compiler Settings                                                            #
+################################################################################
+
+CXX           = $(CXX_COMPILER) $(CXX_FLAGS) $(CXX_INCLUDES) $(CXX_DEFINES)
+CXX_COMPILER ?= c++
+CXX_FLAGS    ?= $(CXX_STANDARD) -c $(CXX_WARNINGS) -ggdb -fPIC $(CXX_FLAGS_$(CONF))
+CXX_INCLUDES ?= -I$(SRC_DIR) -I$(HEADER_DIR)
+CXX_STANDARD ?= --std=c++11
+CXX_DEFINES  ?= -DNGINXCONFIG_USE_BOOST_REGEX=$(USE_BOOST_REGEX)
+CXX_WARNINGS ?= -Werror -Wall -Wextra
+LD            = $(CXX_COMPILER) $(LD_PATHS) $(LD_FLAGS)
+LD_FLAGS     ?= 
+LD_PATHS     ?= 
+LD_LIBRARIES ?= 
+SO            = $(CXX_COMPILER) $(SO_PATHS) $(SO_FLAGS)
+SO_FLAGS     ?= 
+SO_PATHS     ?= 
+SO_LIBRARIES ?= 
+
+################################################################################
+# Libraries                                                                    #
+################################################################################
+
 define LIBRARY_TEMPLATE
   $1_SYMBOL        = $$(subst -,_,$$(shell echo $1 | tr '[:lower:]' '[:upper:]'))
   $1_OBJS          = $$(filter $$(OBJ_DIR)/$1/%,$$(OBJ_FILES))
@@ -103,25 +147,17 @@ endef
 
 $(foreach lib,$(LIBRARIES),$(eval $(call LIBRARY_TEMPLATE,$(lib))))
 
-CXX           = $(CXX_COMPILER) $(CXX_FLAGS) $(CXX_INCLUDES) $(CXX_DEFINES)
-CXX_COMPILER ?= c++
-CXX_FLAGS    ?= $(CXX_STANDARD) -c $(CXX_WARNINGS) -ggdb -fPIC $(CXX_FLAGS_$(CONF))
-CXX_INCLUDES ?= -I$(SRC_DIR) -I$(HEADER_DIR)
-CXX_STANDARD ?= --std=c++11
-CXX_DEFINES  ?= 
-CXX_WARNINGS ?= -Werror -Wall -Wextra
-LD            = $(CXX_COMPILER) $(LD_PATHS) $(LD_FLAGS)
-LD_FLAGS     ?= 
-LD_PATHS     ?= 
-LD_LIBRARIES ?= 
-SO            = $(CXX_COMPILER) $(SO_PATHS) $(SO_FLAGS)
-SO_FLAGS     ?= 
-SO_PATHS     ?= 
-SO_LIBRARIES ?= 
-
 CXX_FLAGS_release = -O3
 
 nginxconfig-tests_LIBS = nginxconfig
+
+ifeq ($(USE_BOOST_REGEX),1)
+  nginxconfig-tests_LD_LIBRARIES += $(BOOST_REGEX_LIB) $(BOOST_SYSTEM_LIB)
+endif
+
+################################################################################
+# Build Recipes                                                                #
+################################################################################
 
 $(OBJ_DIR)/%.cpp.o : $(SRC_DIR)/%.cpp
 	$(QQ)echo " CXX   $*.cpp"
@@ -159,6 +195,10 @@ define TEST_TEMPLATE
 endef
 
 $(foreach test,$(TESTS),$(eval $(call TEST_TEMPLATE,$(test))))
+
+################################################################################
+# Convenience                                                                  #
+################################################################################
 
 test : $(TESTS)
 
