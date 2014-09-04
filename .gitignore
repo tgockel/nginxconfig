@@ -22,3 +22,6 @@
 
 # Project files
 *.kdev4
+
+# Everything in the build directory
+build
