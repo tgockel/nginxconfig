@@ -123,12 +123,21 @@ ast_entry ast_entry::make_document(child_list children)
 }
 
 ast_entry ast_entry::make_simple(std::string    name,
-                                 attribute_list attributes
+                                 attribute_list attributes,
+                                 std::string    comment_text
                                 )
 {
     ast_entry out(ast_entry_kind::simple);
     out.name()       = std::move(name);
     out.attributes() = std::move(attributes);
+    out.comment()    = std::move(comment_text);
+    return out;
+}
+
+ast_entry ast_entry::make_comment(std::string comment_text)
+{
+    ast_entry out(ast_entry_kind::comment);
+    out.comment() = std::move(comment_text);
     return out;
 }
 
@@ -159,6 +168,18 @@ ast_entry::child_list& ast_entry::children()
 {
     check_kind({ ast_entry_kind::complex, ast_entry_kind::document }, kind());
     return _children;
+}
+
+const std::string& ast_entry::comment() const
+{
+    check_kind({ ast_entry_kind::comment, ast_entry_kind::simple }, kind());
+    return _comment;
+}
+
+std::string& ast_entry::comment()
+{
+    check_kind({ ast_entry_kind::comment, ast_entry_kind::simple }, kind());
+    return _comment;
 }
 
 const std::string& ast_entry::name() const

@@ -30,6 +30,8 @@ enum class ast_entry_kind : unsigned int
     complex,
     /** A \c document has child entries and only exists as the root entry of a configuration file. **/
     document,
+    /** A \c comment has only the comment string. **/
+    comment,
 };
 
 NGINXCONFIG_PUBLIC std::ostream& operator<<(std::ostream& os, const ast_entry_kind& kind);
@@ -53,7 +55,8 @@ public:
 
 public:
     static ast_entry make_simple(std::string    name,
-                                 attribute_list attributes = attribute_list()
+                                 attribute_list attributes   = attribute_list(),
+                                 std::string    comment_text = std::string()
                                 );
     
     static ast_entry make_complex(std::string    name,
@@ -62,6 +65,8 @@ public:
                                  );
     
     static ast_entry make_document(child_list children   = child_list());
+    
+    static ast_entry make_comment(std::string comment_text);
     
     ast_entry(const ast_entry&);
     ast_entry& operator=(const ast_entry&);
@@ -84,6 +89,9 @@ public:
     const child_list& children() const;
     child_list&       children();
     
+    const std::string& comment() const;
+    std::string&       comment();
+    
 private:
     explicit ast_entry(ast_entry_kind kind);
     
@@ -92,6 +100,7 @@ private:
     std::string    _name;
     attribute_list _attributes;
     child_list     _children;
+    std::string    _comment;
 };
 
 }
