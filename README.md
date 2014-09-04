@@ -13,16 +13,18 @@ Compiler Support
 
  - Supported
      - GCC 4.9+
+     - GCC 4.8 (with [Boost.Regex][Boost.Regex])
  - Potential
-     - GCC 4.8
      - Clang 3.4+
  - Unplanned
      - MSVC
 
-Currently, the only compiler supported is GCC 4.9.
-While you can *compile* with GCC 4.8, the `std::regex` implementation always throws when used, so it is not very useful.
-In the future, I might add support for building against the [Boost.Regex][Boost.Regex] library instead of the C++
- Standard Library's version.
+While GCC 4.8 is supported, you must compile it with `make USE_BOOST_REGEX=1`.
+GCC versions below 4.8 will happy compile regular expressions, but will fail at runtime with a `regex_error`, which is
+ not very useful.
+However, you can use [Boost.Regex][Boost.Regex] as the regular expression engine for GCC 4.8.
+The downside of this is your application must link with the Boost libraries (`-lboost_regex -lboost_system`).
+
 Support for Clang would certainly not be frowned upon, but I am not planning on doing so, as I only need to control
  nginx from an application compiled with GCC.
 Support for MSVC probably would be frowned upon, since nobody uses nginx on Windows.
