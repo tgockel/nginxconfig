@@ -87,6 +87,7 @@ OBJ_DIR     ?= $(BUILD_DIR)/obj
 DEP_DIR     ?= $(BUILD_DIR)/dep
 LIB_DIR     ?= $(BUILD_DIR)/lib
 BIN_DIR     ?= $(BUILD_DIR)/bin
+INSTALL_DIR ?= /usr
 
 ifeq ($(VERBOSE),)
   Q  := @
@@ -101,7 +102,8 @@ else
  endif
 endif
 
-CXX_FILES       = $(shell find $(SRC_DIR) -type f -name "*.cpp")
+HEADER_FILES    = $(shell find $(HEADER_DIR) -type f -name "*.hpp")
+CXX_FILES       = $(shell find $(SRC_DIR)    -type f -name "*.cpp")
 OBJ_FILES       = $(patsubst $(SRC_DIR)/%,$(OBJ_DIR)/%.o,$(CXX_FILES))
 DEP_FILES       = $(shell find $(DEP_DIR) -type f -name "*.dep" 2>/dev/null)
 
@@ -116,21 +118,23 @@ TESTS     = $(filter %-tests,$(LIBRARIES))
 # Compiler Settings                                                            #
 ################################################################################
 
-CXX           = $(CXX_COMPILER) $(CXX_FLAGS) $(CXX_INCLUDES) $(CXX_DEFINES)
-CXX_COMPILER ?= c++
-CXX_FLAGS    ?= $(CXX_STANDARD) -c $(CXX_WARNINGS) -ggdb -fPIC $(CXX_FLAGS_$(CONF))
-CXX_INCLUDES ?= -I$(SRC_DIR) -I$(HEADER_DIR)
-CXX_STANDARD ?= --std=c++11
-CXX_DEFINES  ?= -DNGINXCONFIG_USE_BOOST_REGEX=$(USE_BOOST_REGEX)
-CXX_WARNINGS ?= -Werror -Wall -Wextra
-LD            = $(CXX_COMPILER) $(LD_PATHS) $(LD_FLAGS)
-LD_FLAGS     ?= 
-LD_PATHS     ?= 
-LD_LIBRARIES ?= 
-SO            = $(CXX_COMPILER) $(SO_PATHS) $(SO_FLAGS)
-SO_FLAGS     ?= 
-SO_PATHS     ?= 
-SO_LIBRARIES ?= 
+CXX            = $(CXX_COMPILER) $(CXX_FLAGS) $(CXX_INCLUDES) $(CXX_DEFINES)
+CXX_COMPILER  ?= c++
+CXX_FLAGS     ?= $(CXX_STANDARD) -c $(CXX_WARNINGS) -ggdb -fPIC $(CXX_FLAGS_$(CONF))
+CXX_INCLUDES  ?= -I$(SRC_DIR) -I$(HEADER_DIR)
+CXX_STANDARD  ?= --std=c++11
+CXX_DEFINES   ?= -DNGINXCONFIG_USE_BOOST_REGEX=$(USE_BOOST_REGEX)
+CXX_WARNINGS  ?= -Werror -Wall -Wextra
+LD             = $(CXX_COMPILER) $(LD_PATHS) $(LD_FLAGS)
+LD_FLAGS      ?= 
+LD_PATHS      ?= 
+LD_LIBRARIES  ?= 
+SO             = $(CXX_COMPILER) $(SO_PATHS) $(SO_FLAGS)
+SO_FLAGS      ?= 
+SO_PATHS      ?= 
+SO_LIBRARIES  ?= 
+INSTALL        = install $(INSTALL_FLAGS)
+INSTALL_FLAGS ?= 
 
 ################################################################################
 # Libraries                                                                    #
@@ -141,6 +145,7 @@ define LIBRARY_TEMPLATE
   $1_OBJS          = $$(filter $$(OBJ_DIR)/$1/%,$$(OBJ_FILES))
   $1_LIB_FILES     = $$(patsubst %,$$(LIB_DIR)/lib%.so,$$($1_LIBS))
   $1_LD_LIBRARIES  = $$(patsubst %,-l%,$$($1_LIBS)) $$(LD_LIBRARIES)
+  $1_HEADER_FILES  = $$(filter $$(HEADER_DIR)/$1/%,$$(HEADER_FILES))
 
   $1 : $$(LIB_DIR)/lib$1.a $$(LIB_DIR)/lib$1.so.$$(NGINXCONFIG_VERSION) $$(LIB_DIR)/lib$1.so
 endef
@@ -196,6 +201,17 @@ endef
 
 $(foreach test,$(TESTS),$(eval $(call TEST_TEMPLATE,$(test))))
 
+define INSTALL_TEMPLATE
+  install_$(1) : $$(LIB_DIR)/lib$1.so.$$(NGINXCONFIG_VERSION) $$(LIB_DIR)/lib$1.so
+	$$(QQ)echo " INSTL $1 -> $$(INSTALL_DIR)"
+	$$(QQ)mkdir -p $$(INSTALL_DIR)/lib
+	$$Q$(INSTALL) $$(LIB_DIR)/lib$1.so.$$(NGINXCONFIG_VERSION) $$(LIB_DIR)/lib$1.so $$(INSTALL_DIR)/lib
+	$$(QQ)mkdir -p $$(INSTALL_DIR)/include
+	$$Q$(INSTALL) $$($(1)_HEADER_FILES) $$(INSTALL_DIR)/include/$1
+endef
+
+$(foreach lib,$(LIBRARIES),$(eval $(call INSTALL_TEMPLATE,$(lib))))
+
 ################################################################################
 # Convenience                                                                  #
 ################################################################################
@@ -210,3 +226,5 @@ clean-src :
 	$(QQ)echo " RM    $(SRC_DIR)/**/*~"
 	$Qfind $(SRC_DIR)     -name '*~' -delete
 	$Qfind $(INCLUDE_DIR) -name '*~' -delete
+
+install : install_nginxconfig
