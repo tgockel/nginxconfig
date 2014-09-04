@@ -9,6 +9,7 @@
  *  \author Travis Gockel (travis@gockelhut.com)
 **/
 #include <nginxconfig/ast.hpp>
+#include <nginxconfig/encode.hpp>
 
 #include <algorithm>
 #include <sstream>
@@ -49,6 +50,7 @@ std::ostream& operator<<(std::ostream& os, const ast_entry_kind& kind)
     switch (kind)
     {
     case ast_entry_kind::complex:  return os << "complex";
+    case ast_entry_kind::comment:  return os << "comment";
     case ast_entry_kind::document: return os << "document";
     case ast_entry_kind::simple:   return os << "simple";
     default:                       return os << "???";
@@ -80,7 +82,8 @@ ast_entry::ast_entry(ast_entry&& src) noexcept :
         _kind(src._kind),
         _name(std::move(src._name)),
         _attributes(std::move(src._attributes)),
-        _children(std::move(src._children))
+        _children(std::move(src._children)),
+        _comment(std::move(src._comment))
 { }
 
 ast_entry& ast_entry::operator=(ast_entry&& src) noexcept
@@ -89,6 +92,7 @@ ast_entry& ast_entry::operator=(ast_entry&& src) noexcept
     _name = std::move(src._name);
     _attributes = std::move(src._attributes);
     _children = std::move(src._children);
+    _comment = std::move(src._comment);
     return *this;
 }
 
@@ -172,13 +176,13 @@ ast_entry::child_list& ast_entry::children()
 
 const std::string& ast_entry::comment() const
 {
-    check_kind({ ast_entry_kind::comment, ast_entry_kind::simple }, kind());
+    check_kind({ ast_entry_kind::comment, ast_entry_kind::simple, ast_entry_kind::complex }, kind());
     return _comment;
 }
 
 std::string& ast_entry::comment()
 {
-    check_kind({ ast_entry_kind::comment, ast_entry_kind::simple }, kind());
+    check_kind({ ast_entry_kind::comment, ast_entry_kind::simple, ast_entry_kind::complex }, kind());
     return _comment;
 }
 
@@ -192,6 +196,12 @@ std::string& ast_entry::name()
 {
     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, kind());
     return _name;
+}
+
+std::ostream& operator<<(std::ostream& os, const ast_entry& ast)
+{
+    encode(ast, os);
+    return os;
 }
 
 }

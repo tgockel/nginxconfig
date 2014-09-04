@@ -77,12 +77,6 @@ bool context::next()
         NGINXCONFIG_DEBUG_PRINT("LINE:\t" << current);
         character_no_next = character_no + current.size();
         ++line_no;
-        
-        // trim the trailing whitespace...
-        size_type eol = current.find_last_not_of("\r\n");
-        if (eol == std::string::npos)
-            eol = current.size();
-        current.resize(eol);
         return true;
     }
     else
@@ -113,7 +107,7 @@ line_components line_components::create_from_line(const std::string& line)
     //  3) either {, } or ;
     //  4) comment including #
     //  5) comment not including #
-    static const std::regex line_regex(R"([ \t]*([^ \t#]+)?[ \t]*([^{;#]*)([{};]?)[ \t]*(#(.*))?)",
+    static const std::regex line_regex(R"([ \t]*([A-Za-z_][A-Za-z0-9_]*)?[ \t]*([^{};#]*)([{};]?)[ \t]*(#(.*))?)",
                             std::regex_constants::ECMAScript | std::regex_constants::optimize);
     
     std::smatch results;
@@ -121,7 +115,7 @@ line_components line_components::create_from_line(const std::string& line)
     if (std::regex_match(line, results, line_regex))
     {
         #if NGINXCONFIG_DEBUG
-        NGINXCONFIG_DEBUG_PRINT("REGEX MATCH sz=" << sz);
+        NGINXCONFIG_DEBUG_PRINT("REGEX MATCH sz=" << results.size());
         for (const auto& x : results)
         {
             NGINXCONFIG_DEBUG_PRINT("\t|" << x << '|');
@@ -132,11 +126,12 @@ line_components line_components::create_from_line(const std::string& line)
         out.attributes = split_attributes(results[2]);
         const std::string& tok = results[3];
         out.category = tok.size() == 0 ? line_kind::comment
-                    : tok[0] == '{'   ? line_kind::complex_start
-                    : tok[0] == '}'   ? line_kind::complex_end
-                    : tok[0] == ';'   ? line_kind::simple
-                    :                   line_kind::unknown;
+                    : tok[0] == '{'    ? line_kind::complex_start
+                    : tok[0] == '}'    ? line_kind::complex_end
+                    : tok[0] == ';'    ? line_kind::simple
+                    :                    line_kind::unknown;
         out.comment = results[5];
+        NGINXCONFIG_DEBUG_PRINT(out.comment);
     }
     return out;
 }
