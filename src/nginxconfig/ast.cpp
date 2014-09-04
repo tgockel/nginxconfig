@@ -76,10 +76,32 @@ ast_entry::ast_entry(ast_entry_kind kind_) :
 ast_entry::ast_entry(const ast_entry&) = default;
 ast_entry& ast_entry::operator=(const ast_entry&) = default;
 
-ast_entry::ast_entry(ast_entry&&) noexcept = default;
-ast_entry& ast_entry::operator=(ast_entry&&) noexcept = default;
+ast_entry::ast_entry(ast_entry&& src) noexcept :
+        _kind(src._kind),
+        _name(std::move(src._name)),
+        _attributes(std::move(src._attributes)),
+        _children(std::move(src._children))
+{ }
+
+ast_entry& ast_entry::operator=(ast_entry&& src) noexcept
+{
+    _kind = src._kind;
+    _name = std::move(src._name);
+    _attributes = std::move(src._attributes);
+    _children = std::move(src._children);
+    return *this;
+}
 
 ast_entry::~ast_entry() noexcept = default;
+
+void swap(ast_entry& a, ast_entry& b) noexcept
+{
+    using std::swap;
+    swap(a._kind, b._kind);
+    swap(a._name, b._name);
+    swap(a._attributes, b._attributes);
+    swap(a._children, b._children);
+}
 
 ast_entry ast_entry::make_complex(std::string    name,
                                   attribute_list attributes,

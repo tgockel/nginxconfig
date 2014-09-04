@@ -71,6 +71,8 @@ public:
     
     ~ast_entry() noexcept;
     
+    friend void swap(ast_entry& a, ast_entry& b) noexcept;
+    
     ast_entry_kind kind() const;
     
     const std::string& name() const;
