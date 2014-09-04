@@ -160,8 +160,8 @@ SO             = $(CXX_COMPILER) $(SO_PATHS) $(SO_FLAGS)
 SO_FLAGS      ?= 
 SO_PATHS      ?= 
 SO_LIBRARIES  ?= 
-INSTALL        = install $(INSTALL_FLAGS)
-INSTALL_FLAGS ?= 
+INSTALL        = cp $(INSTALL_FLAGS)
+INSTALL_FLAGS ?= --no-dereference
 
 ################################################################################
 # Libraries                                                                    #
@@ -233,8 +233,7 @@ define INSTALL_TEMPLATE
 	$$(QQ)echo " INSTL $1 -> $$(INSTALL_DIR)"
 	$$(QQ)mkdir -p $$(INSTALL_DIR)/lib
 	$$Q$(INSTALL) $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so $$(INSTALL_DIR)/lib
-	$$Q$(INSTALL) --directory $$(HEADER_DIR)/$1 $$(INSTALL_DIR)/include/$1
-	$$Q$(INSTALL) $$($(1)_HEADER_FILES) $$(INSTALL_DIR)/include/$1
+	$$Q$(INSTALL) --recursive $$(HEADER_DIR)/$1 $$(INSTALL_DIR)/include
 endef
 
 $(foreach lib,$(LIBRARIES),$(eval $(call INSTALL_TEMPLATE,$(lib))))
