@@ -233,7 +233,7 @@ define INSTALL_TEMPLATE
 	$$(QQ)echo " INSTL $1 -> $$(INSTALL_DIR)"
 	$$(QQ)mkdir -p $$(INSTALL_DIR)/lib
 	$$Q$(INSTALL) $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so $$(INSTALL_DIR)/lib
-	$$(QQ)mkdir -p $$(INSTALL_DIR)/include
+	$$Q$(INSTALL) --directory $$(HEADER_DIR)/$1 $$(INSTALL_DIR)/include/$1
 	$$Q$(INSTALL) $$($(1)_HEADER_FILES) $$(INSTALL_DIR)/include/$1
 endef
 
