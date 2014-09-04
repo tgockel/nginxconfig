@@ -88,7 +88,7 @@ else
    VERSIONED_SO = lib$(1)-$(2).so
  else
   ifeq ($(VERSION_STYLE),custom)
-   ifndef $(VERSIONED_SO)
+   ifndef VERSIONED_SO
      $(error VERSION_STYLE set to custom but VERSIONED_SO is not defined)
    endif
   else
