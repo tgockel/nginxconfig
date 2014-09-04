@@ -3,8 +3,9 @@ complier:
   - gcc
 install:
   # Install GCC 4.8...
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
-  - sudo apt-get install g++-4.8 -y
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-add-repository --yes ppa:boost-latest/ppa
+  - sudo apt-get update
+  - sudo apt-get install --yes g++-4.8 libboost1.55-dev
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 script: make test USE_BOOST_REGEX=1
