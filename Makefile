@@ -52,7 +52,7 @@ define MAKEFILE_EXTENSION_TEMPLATE
 endef
 $(foreach extension,$(MAKEFILE_EXTENSIONS),$(eval $(call MAKEFILE_EXTENSION_TEMPLATE,$(extension))))
 
-NGINXCONFIG_VERSION = 0.1.1
+NGINXCONFIG_VERSION ?= 0.1.1
 
 ################################################################################
 # Configuration                                                                #
