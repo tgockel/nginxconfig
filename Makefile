@@ -70,6 +70,33 @@ BOOST_REGEX_LIB ?= -lboost_regex
 # The library flag used to link to if USE_BOOST_REGEX is 1.
 BOOST_SYSTEM_LIB ?= -lboost_system
 
+# def: VERSION_STYLE
+# For the strongly-versioned shared objects, how should the version be styled? There are a few options...
+# 
+#  - standard
+#    lib$(NAME).so-$(VERSION)
+#  - internal
+#    lib$(NAME)-$(VERSION).so
+#  - custom
+#    Define a template for VERSIONED_SO yourself.
+VERSION_STYLE ?= standard
+
+ifeq ($(VERSION_STYLE),standard)
+  VERSIONED_SO = lib$(1).so-$(2)
+else
+ ifeq ($(VERSION_STYLE),internal)
+   VERSIONED_SO = lib$(1)-$(2).so
+ else
+  ifeq ($(VERSION_STYLE),custom)
+   ifndef $(VERSIONED_SO)
+     $(error VERSION_STYLE set to custom but VERSIONED_SO is not defined)
+   endif
+  else
+   $(error Invalid VERSION_STYLE "$(VERSION_STYLE)")
+  endif
+ endif
+endif
+
 ################################################################################
 # Build Paths                                                                  #
 ################################################################################
@@ -147,7 +174,7 @@ define LIBRARY_TEMPLATE
   $1_LD_LIBRARIES  = $$(patsubst %,-l%,$$($1_LIBS)) $$(LD_LIBRARIES)
   $1_HEADER_FILES  = $$(filter $$(HEADER_DIR)/$1/%,$$(HEADER_FILES))
 
-  $1 : $$(LIB_DIR)/lib$1.a $$(LIB_DIR)/lib$1.so.$$(NGINXCONFIG_VERSION) $$(LIB_DIR)/lib$1.so
+  $1 : $$(LIB_DIR)/lib$1.a $$(LIB_DIR)/$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so
 endef
 
 $(foreach lib,$(LIBRARIES),$(eval $(call LIBRARY_TEMPLATE,$(lib))))
@@ -178,15 +205,15 @@ $(LIB_DIR)/lib%.a : $$($$*_OBJS)
 	$Q$(AR) cr $@ $^
 
 .SECONDEXPANSION:
-$(LIB_DIR)/lib%.so.$(NGINXCONFIG_VERSION) : $$($$*_OBJS)
-	$(QQ)echo " SO    lib$*.so.$(NGINXCONFIG_VERSION)"
+$(LIB_DIR)/$(call VERSIONED_SO,%,$(NGINXCONFIG_VERSION)) : $$($$*_OBJS)
+	$(QQ)echo " SO    $(call VERSIONED_SO,$*,$(NGINXCONFIG_VERSION))"
 	$(QQ)mkdir -p $(@D)
-	$Q$(SO) -shared -Wl,-soname,lib$*.so.$(NGINXCONFIG_VERSION) $^ -o $@
+	$Q$(SO) -shared -Wl,-soname,$(call VERSIONED_SO,$*,$(NGINXCONFIG_VERSION)) $^ -o $@
 
-$(LIB_DIR)/lib%.so : $(LIB_DIR)/lib%.so.$(NGINXCONFIG_VERSION)
+$(LIB_DIR)/lib%.so : $(LIB_DIR)/$(call VERSIONED_SO,%,$(NGINXCONFIG_VERSION))
 	$(QQ)echo " LN    $< -> $@"
 	$(QQ)rm -f $@
-	$Qln -s lib$*.so.$(NGINXCONFIG_VERSION) $@
+	$Qln -s $(call VERSIONED_SO,$*,$(NGINXCONFIG_VERSION)) $@
 
 define TEST_TEMPLATE
   $$(BIN_DIR)/$1 : $$($1_OBJS) $$($1_LIB_FILES)
@@ -202,10 +229,10 @@ endef
 $(foreach test,$(TESTS),$(eval $(call TEST_TEMPLATE,$(test))))
 
 define INSTALL_TEMPLATE
-  install_$(1) : $$(LIB_DIR)/lib$1.so.$$(NGINXCONFIG_VERSION) $$(LIB_DIR)/lib$1.so
+  install_$(1) : $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so
 	$$(QQ)echo " INSTL $1 -> $$(INSTALL_DIR)"
 	$$(QQ)mkdir -p $$(INSTALL_DIR)/lib
-	$$Q$(INSTALL) $$(LIB_DIR)/lib$1.so.$$(NGINXCONFIG_VERSION) $$(LIB_DIR)/lib$1.so $$(INSTALL_DIR)/lib
+	$$Q$(INSTALL) $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so $$(INSTALL_DIR)/lib
 	$$(QQ)mkdir -p $$(INSTALL_DIR)/include
 	$$Q$(INSTALL) $$($(1)_HEADER_FILES) $$(INSTALL_DIR)/include/$1
 endef
