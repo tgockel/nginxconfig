@@ -11,6 +11,7 @@
 **/
 #include <nginxconfig/all.hpp>
 
+#include <iostream>
 #include <sstream>
 
 #include "test.hpp"
@@ -138,4 +139,5 @@ TEST(user_config)
 {
     std::istringstream stream(nginx_default_file);
     nginxconfig::ast_entry ast = nginxconfig::parse(stream);
+    std::cout << ast;
 }

@@ -14,6 +14,7 @@
 
 #include "ast.hpp"
 #include "config.hpp"
+#include "encode.hpp"
 #include "parse.hpp"
 
 #endif/*__NGINXCONFIG_ALL_HPP_INCLUDED__*/

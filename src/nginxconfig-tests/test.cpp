@@ -31,9 +31,9 @@ bool unit_test::run()
 {
     std::cout << "TEST: " << _name << " ...";
     _success = true;
+        run_impl();
     try
     {
-        run_impl();
     }
     catch (const std::exception& ex)
     {

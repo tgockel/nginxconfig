@@ -103,6 +103,8 @@ private:
     std::string    _comment;
 };
 
+NGINXCONFIG_PUBLIC std::ostream& operator<<(std::ostream&, const ast_entry&);
+
 }
 
 #endif/*__NGINXCONFIG_AST_HPP_INCLUDED__*/

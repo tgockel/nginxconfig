@@ -40,7 +40,7 @@ TEST(line_components_comment_only_whitespace_prefix)
 
 TEST(line_components_simple_no_comment)
 {
-    auto x = line_components::create_from_line("worker_processes 1;");
+    auto x = line_components::create_from_line("worker_processes  1;");
     ensure(line_kind::simple == x.category);
     ensure_eq(x.name, "worker_processes");
 }
