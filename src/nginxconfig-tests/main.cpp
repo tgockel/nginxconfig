@@ -9,15 +9,7 @@
  *
  *  \author Travis Gockel (travis@gockelhut.com)
 **/
-
-#include <nginxconfig/all.hpp>
-
 #include "test.hpp"
-
-TEST(user_config)
-{
-    nginxconfig::ast_entry ast = nginxconfig::parse_file("/etc/nginx/nginx.conf");
-}
 
 int main(int argc, char** argv)
 {
