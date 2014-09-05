@@ -8,12 +8,13 @@ before_install:
   -d
 - chmod 0600 config/travisci_rsa
 - cp config/travisci_rsa ~/.ssh/id_rsa
-install:
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 - sudo apt-add-repository --yes ppa:boost-latest/ppa
 - sudo apt-get update
+install:
 - sudo apt-get install --yes g++-4.8 libboost1.55-all-dev doxygen graphviz
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 script:
-- make test USE_BOOST_REGEX=1
+- make -j test USE_BOOST_REGEX=1
+after_success:
 - ./config/publish-doxygen
