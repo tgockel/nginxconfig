@@ -13,6 +13,6 @@ make doxygen
 echo "Creating git changeset..."
 cd ${HTML_PATH}
 git add .
-#git commit --author="${COMMIT_AUTHOR}" -m "Automated documentation build for changeset ${CHANGESET}."
-#git push origin gh-pages
+git commit --author="${COMMIT_AUTHOR}" -m "Automated documentation build for changeset ${CHANGESET}."
+git push origin gh-pages
 cd -
