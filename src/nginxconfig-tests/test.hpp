@@ -11,6 +11,7 @@
 #ifndef __TEST_NGINXTEST_TEST_HPP_INCLUDED__
 #define __TEST_NGINXTEST_TEST_HPP_INCLUDED__
 
+#include <cassert>
 #include <deque>
 #include <sstream>
 #include <string>

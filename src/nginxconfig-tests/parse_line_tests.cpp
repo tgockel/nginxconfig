@@ -17,6 +17,8 @@
 
 using namespace nginxconfig::parser;
 
+using attribute_list = nginxconfig::ast_entry::attribute_list;
+
 TEST(line_components_empty)
 {
     auto x = line_components::create_from_line("");
@@ -40,7 +42,31 @@ TEST(line_components_comment_only_whitespace_prefix)
 
 TEST(line_components_simple_no_comment)
 {
-    auto x = line_components::create_from_line("worker_processes  1;");
-    ensure(line_kind::simple == x.category);
-    ensure_eq(x.name, "worker_processes");
+    for (auto source : {
+                         "worker_processes 1 blah;",
+                         "\tworker_processes 1\tblah   ;",
+                         "  \t worker_processes\t        1            blah;             ",
+                       })
+    {
+        auto x = line_components::create_from_line(source);
+        ensure(line_kind::simple == x.category);
+        ensure_eq(x.name, "worker_processes");
+        ensure(x.attributes == attribute_list({ "1", "blah" }));
+    }
+}
+
+TEST(line_components_simple_comment)
+{
+    for (auto source : {
+                         "worker_processes 1 bl/ah;# comment",
+                         "\tworker_processes 1\tbl/ah   ;   # comment",
+                         "  \t worker_processes\t        1            bl/ah;\t\t# comment",
+                       })
+    {
+        auto x = line_components::create_from_line(source);
+        ensure(line_kind::simple == x.category);
+        ensure_eq(x.name, "worker_processes");
+        ensure(x.attributes == attribute_list({ "1", "bl/ah" }));
+        ensure_eq(x.comment, " comment");
+    }
 }
