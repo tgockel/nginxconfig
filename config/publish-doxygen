@@ -2,7 +2,8 @@
 
 REPO_PATH=git@github.com:tgockel/nginxconfig.git
 HTML_PATH=build/doc/html
-COMMIT_AUTHOR="Documentation Builder <travis@gockelhut.com>"
+COMMIT_USER="Documentation Builder"
+COMMIT_EMAIL="travis@gockelhut.com"
 CHANGESET=$(git rev-parse --verify HEAD)
 
 make clean-doxygen
@@ -13,6 +14,8 @@ make doxygen
 echo "Creating git changeset..."
 cd ${HTML_PATH}
 git add .
-git commit --author="${COMMIT_AUTHOR}" -m "Automated documentation build for changeset ${CHANGESET}."
+git config user.name "${COMMIT_USER}"
+git config user.email "${COMMIT_EMAIL}"
+git commit -m "Automated documentation build for changeset ${CHANGESET}."
 git push origin gh-pages
 cd -
