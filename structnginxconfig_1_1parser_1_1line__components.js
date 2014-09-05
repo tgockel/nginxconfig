@@ -1,6 +1,6 @@
 var structnginxconfig_1_1parser_1_1line__components =
 [
-    [ "create_from_line", "structnginxconfig_1_1parser_1_1line__components.html#a9c825b6bdc86270ed6d4fac3d8f0d40d", null ],
+    [ "attribute_list", "structnginxconfig_1_1parser_1_1line__components.html#a5f944db34b51aec9242dfe8367de1e6f", null ],
     [ "attributes", "structnginxconfig_1_1parser_1_1line__components.html#a4afa1683518a3c52e648adfe2aeae31a", null ],
     [ "category", "structnginxconfig_1_1parser_1_1line__components.html#a8fbd229d3df195a735524edcb9a11122", null ],
     [ "comment", "structnginxconfig_1_1parser_1_1line__components.html#a8b9a110fe2bde708eac1a86ad4f22fcc", null ],

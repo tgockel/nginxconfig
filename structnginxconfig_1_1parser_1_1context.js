@@ -1,5 +1,6 @@
 var structnginxconfig_1_1parser_1_1context =
 [
+    [ "size_type", "structnginxconfig_1_1parser_1_1context.html#a5856acb3a78b954b0c855af5ca9eb3aa", null ],
     [ "context", "structnginxconfig_1_1parser_1_1context.html#af5c6979480f78e3234aad92566cfe98c", null ],
     [ "create_parse_error", "structnginxconfig_1_1parser_1_1context.html#ae4f0cc913ed072c42cf0581abb161335", null ],
     [ "next", "structnginxconfig_1_1parser_1_1context.html#afa0b57c4be9d312830d0b898d0322749", null ],

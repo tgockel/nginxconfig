@@ -1,5 +1,6 @@
 var classnginxconfig_1_1encoder =
 [
+    [ "context", "classnginxconfig_1_1encoder_1_1context.html", "classnginxconfig_1_1encoder_1_1context" ],
     [ "~encoder", "classnginxconfig_1_1encoder.html#aac05692ad5f61a3a842b8dcdba2f4ec9", null ],
     [ "encode", "classnginxconfig_1_1encoder.html#a7904a9f3db4aaf3e196f455b789d4d75", null ],
     [ "write_comment", "classnginxconfig_1_1encoder.html#aaeef32d403ed2f64228aee78db5d9df8", null ],
