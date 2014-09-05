@@ -113,6 +113,7 @@ BUILD_DIR   ?= $(BUILD_ROOT)/$(CONF)
 OBJ_DIR     ?= $(BUILD_DIR)/obj
 DEP_DIR     ?= $(BUILD_DIR)/dep
 LIB_DIR     ?= $(BUILD_DIR)/lib
+DOC_DIR     ?= $(BUILD_ROOT)/doc
 BIN_DIR     ?= $(BUILD_DIR)/bin
 INSTALL_DIR ?= /usr
 
@@ -253,8 +254,12 @@ clean-src :
 	$Qfind $(SRC_DIR)     -name '*~' -delete
 	$Qfind $(INCLUDE_DIR) -name '*~' -delete
 
+clean-doxygen :
+	$(QQ)echo " RM    $(DOC_DIR)"
+	$Qrm -rf $(DOC_DIR)
+
 doxygen :
 	$(QQ)echo " DOXY  nginxconfig"
-	$Qdoxygen Doxyfile
+	$Qdoxygen config/Doxyfile
 
 install : install_nginxconfig
