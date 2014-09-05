@@ -253,4 +253,8 @@ clean-src :
 	$Qfind $(SRC_DIR)     -name '*~' -delete
 	$Qfind $(INCLUDE_DIR) -name '*~' -delete
 
+doxygen :
+	$(QQ)echo " DOXY  nginxconfig"
+	$Qdoxygen Doxyfile
+
 install : install_nginxconfig
