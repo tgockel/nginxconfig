@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <tuple>
 
 namespace nginxconfig
 {
@@ -105,6 +106,7 @@ void swap(ast_entry& a, ast_entry& b) noexcept
     swap(a._name, b._name);
     swap(a._attributes, b._attributes);
     swap(a._children, b._children);
+    swap(a._comment, b._comment);
 }
 
 ast_entry ast_entry::make_complex(std::string    name,
@@ -196,6 +198,19 @@ std::string& ast_entry::name()
 {
     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, kind());
     return _name;
+}
+
+#define NGINXCONFIG_AST_ENTRY_TIE_TUPLE(x)                                                                             \
+    std::tie((x)._kind, (x)._name, (x)._attributes, (x)._children, (x)._comment)
+
+bool ast_entry::operator==(const ast_entry& other) const
+{
+    return NGINXCONFIG_AST_ENTRY_TIE_TUPLE(*this) == NGINXCONFIG_AST_ENTRY_TIE_TUPLE(other);
+}
+
+bool ast_entry::operator!=(const ast_entry& other) const
+{
+    return NGINXCONFIG_AST_ENTRY_TIE_TUPLE(*this) != NGINXCONFIG_AST_ENTRY_TIE_TUPLE(other);
 }
 
 std::ostream& operator<<(std::ostream& os, const ast_entry& ast)

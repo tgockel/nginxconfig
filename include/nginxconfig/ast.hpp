@@ -92,6 +92,9 @@ public:
     const std::string& comment() const;
     std::string&       comment();
     
+    bool operator==(const ast_entry& other) const;
+    bool operator!=(const ast_entry& other) const;
+    
 private:
     explicit ast_entry(ast_entry_kind kind);
     
