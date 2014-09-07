@@ -54,18 +54,22 @@ public:
     using child_list     = std::deque<ast_entry>;
 
 public:
+    /** Create a \c simple AST entry. **/
     static ast_entry make_simple(std::string    name,
                                  attribute_list attributes   = attribute_list(),
                                  std::string    comment_text = std::string()
                                 );
     
+    /** Create a \c complex AST entry. **/
     static ast_entry make_complex(std::string    name,
                                   attribute_list attributes = attribute_list(),
                                   child_list     children   = child_list()
                                  );
     
+    /** Create a \c document. **/
     static ast_entry make_document(child_list children   = child_list());
     
+    /** Create a \c comment AST entry. **/
     static ast_entry make_comment(std::string comment_text);
     
     ast_entry(const ast_entry&);
@@ -76,22 +80,48 @@ public:
     
     ~ast_entry() noexcept;
     
+    /** Swap the contents of \a a with \a b. This will never throw. **/
     friend void swap(ast_entry& a, ast_entry& b) noexcept;
     
+    /** Get the kind of entry this is.
+     *  
+     *  \see ast_entry_kind
+    **/
     ast_entry_kind kind() const;
     
+    /** The name of the entry is the first part of a \c simple or \c complex entry. This is typically something like
+     *  "http", "location" or "root". The only allowed characters according to nginx are alphanumeric and underscores,
+     *  but your input is not validated.
+     *  
+     *  \throws kind_error if \c kind is not \c simple or \c complex.
+    **/
     const std::string& name() const;
     std::string&       name();
     
+    /** The attributes immediately follow the \c name of a \c simple or \c complex entry. This is used to specify
+     *  additional options to an entry.
+     *  
+     *  \throws kind_error if \c kind is not \c simple or \c complex.
+    **/
     const attribute_list& attributes() const;
     attribute_list&       attributes();
     
+    /** Get the children of a \c complex or \c document entry.
+     * 
+     *  \throws kind_error if \c kind is not \c complex or \c document.
+    **/
     const child_list& children() const;
     child_list&       children();
     
+    /** Get the comment of a \c comment, \c simple or \c complex entry. Comments are appended \e after the closing \c ;
+     *  or \c {. For \c document comments, add them as a child.
+     *  
+     *  \throws kind_error if \c kind is not \c comment, \c simple or \c complex.
+    **/
     const std::string& comment() const;
     std::string&       comment();
     
+    /** Compare the AST for equality. **/
     bool operator==(const ast_entry& other) const;
     bool operator!=(const ast_entry& other) const;
     
