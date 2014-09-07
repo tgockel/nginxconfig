@@ -181,7 +181,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00099"></a>00099 
 <a name="l00100"></a>00100 ast_entry::~ast_entry() noexcept = default;
 <a name="l00101"></a>00101 
-<a name="l00102"></a>00102 <span class="keywordtype">void</span> swap(ast_entry&amp; a, ast_entry&amp; b) noexcept
+<a name="l00102"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a14f3c7845ce069addf5b652682908fff">00102</a> <span class="keywordtype">void</span> swap(<a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a>&amp; a, <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a>&amp; b) noexcept
 <a name="l00103"></a>00103 {
 <a name="l00104"></a>00104     <span class="keyword">using</span> std::swap;
 <a name="l00105"></a>00105     swap(a._kind, b._kind);
@@ -191,106 +191,106 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00109"></a>00109     swap(a._comment, b._comment);
 <a name="l00110"></a>00110 }
 <a name="l00111"></a>00111 
-<a name="l00112"></a>00112 ast_entry ast_entry::make_complex(std::string    name,
+<a name="l00112"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a6fa8b3576c1b0bda1d99d60409e7d8a6">00112</a> <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> <a class="code" href="classnginxconfig_1_1ast__entry.html#a6fa8b3576c1b0bda1d99d60409e7d8a6">ast_entry::make_complex</a>(std::string    name,
 <a name="l00113"></a>00113                                   attribute_list attributes,
 <a name="l00114"></a>00114                                   child_list     children
 <a name="l00115"></a>00115                                  )
 <a name="l00116"></a>00116 {
-<a name="l00117"></a>00117     ast_entry out(ast_entry_kind::complex);
-<a name="l00118"></a>00118     out.name()       = std::move(name);
-<a name="l00119"></a>00119     out.attributes() = std::move(attributes);
-<a name="l00120"></a>00120     out.children()   = std::move(children);
+<a name="l00117"></a>00117     <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> out(ast_entry_kind::complex);
+<a name="l00118"></a>00118     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#a8c96ee4c3c08fade3909d33257bee4e5">name</a>()       = std::move(name);
+<a name="l00119"></a>00119     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#a375472dd95826759dfbee879eae27be7">attributes</a>() = std::move(attributes);
+<a name="l00120"></a>00120     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#aba541bb111cadc9dc80399c226711eeb">children</a>()   = std::move(children);
 <a name="l00121"></a>00121     <span class="keywordflow">return</span> out;
 <a name="l00122"></a>00122 }
 <a name="l00123"></a>00123 
-<a name="l00124"></a>00124 ast_entry ast_entry::make_document(child_list children)
+<a name="l00124"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a5dd93a5489e6a2f5ea93aad5b43120fc">00124</a> <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> <a class="code" href="classnginxconfig_1_1ast__entry.html#a5dd93a5489e6a2f5ea93aad5b43120fc">ast_entry::make_document</a>(child_list children)
 <a name="l00125"></a>00125 {
-<a name="l00126"></a>00126     ast_entry out(ast_entry_kind::document);
-<a name="l00127"></a>00127     out.children()   = std::move(children);
+<a name="l00126"></a>00126     <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> out(ast_entry_kind::document);
+<a name="l00127"></a>00127     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#aba541bb111cadc9dc80399c226711eeb">children</a>()   = std::move(children);
 <a name="l00128"></a>00128     <span class="keywordflow">return</span> out;
 <a name="l00129"></a>00129 }
 <a name="l00130"></a>00130 
-<a name="l00131"></a>00131 ast_entry ast_entry::make_simple(std::string    name,
+<a name="l00131"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#af7daac8dda41883048d506a7e0568b32">00131</a> <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> <a class="code" href="classnginxconfig_1_1ast__entry.html#af7daac8dda41883048d506a7e0568b32">ast_entry::make_simple</a>(std::string    name,
 <a name="l00132"></a>00132                                  attribute_list attributes,
 <a name="l00133"></a>00133                                  std::string    comment_text
 <a name="l00134"></a>00134                                 )
 <a name="l00135"></a>00135 {
-<a name="l00136"></a>00136     ast_entry out(ast_entry_kind::simple);
-<a name="l00137"></a>00137     out.name()       = std::move(name);
-<a name="l00138"></a>00138     out.attributes() = std::move(attributes);
-<a name="l00139"></a>00139     out.comment()    = std::move(comment_text);
+<a name="l00136"></a>00136     <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> out(ast_entry_kind::simple);
+<a name="l00137"></a>00137     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#a8c96ee4c3c08fade3909d33257bee4e5">name</a>()       = std::move(name);
+<a name="l00138"></a>00138     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#a375472dd95826759dfbee879eae27be7">attributes</a>() = std::move(attributes);
+<a name="l00139"></a>00139     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#a85c3e3b8241ef83bca567f4dc4fb4fbb">comment</a>()    = std::move(comment_text);
 <a name="l00140"></a>00140     <span class="keywordflow">return</span> out;
 <a name="l00141"></a>00141 }
 <a name="l00142"></a>00142 
-<a name="l00143"></a>00143 ast_entry ast_entry::make_comment(std::string comment_text)
+<a name="l00143"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a388319cc3546ddde3f9b98674d442a95">00143</a> <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> <a class="code" href="classnginxconfig_1_1ast__entry.html#a388319cc3546ddde3f9b98674d442a95">ast_entry::make_comment</a>(std::string comment_text)
 <a name="l00144"></a>00144 {
-<a name="l00145"></a>00145     ast_entry out(ast_entry_kind::comment);
-<a name="l00146"></a>00146     out.comment() = std::move(comment_text);
+<a name="l00145"></a>00145     <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a> out(ast_entry_kind::comment);
+<a name="l00146"></a>00146     out.<a class="code" href="classnginxconfig_1_1ast__entry.html#a85c3e3b8241ef83bca567f4dc4fb4fbb">comment</a>() = std::move(comment_text);
 <a name="l00147"></a>00147     <span class="keywordflow">return</span> out;
 <a name="l00148"></a>00148 }
 <a name="l00149"></a>00149 
-<a name="l00150"></a>00150 ast_entry_kind ast_entry::kind()<span class="keyword"> const</span>
+<a name="l00150"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">00150</a> ast_entry_kind <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">ast_entry::kind</a>()<span class="keyword"> const</span>
 <a name="l00151"></a>00151 <span class="keyword"></span>{
 <a name="l00152"></a>00152     <span class="keywordflow">return</span> _kind;
 <a name="l00153"></a>00153 }
 <a name="l00154"></a>00154 
-<a name="l00155"></a>00155 <span class="keyword">const</span> ast_entry::attribute_list&amp; ast_entry::attributes()<span class="keyword"> const</span>
+<a name="l00155"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a375472dd95826759dfbee879eae27be7">00155</a> <span class="keyword">const</span> ast_entry::attribute_list&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#a375472dd95826759dfbee879eae27be7">ast_entry::attributes</a>()<span class="keyword"> const</span>
 <a name="l00156"></a>00156 <span class="keyword"></span>{
-<a name="l00157"></a>00157     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, kind());
+<a name="l00157"></a>00157     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00158"></a>00158     <span class="keywordflow">return</span> _attributes;
 <a name="l00159"></a>00159 }
 <a name="l00160"></a>00160 
-<a name="l00161"></a>00161 ast_entry::attribute_list&amp; ast_entry::attributes()
+<a name="l00161"></a>00161 ast_entry::attribute_list&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#a375472dd95826759dfbee879eae27be7">ast_entry::attributes</a>()
 <a name="l00162"></a>00162 {
-<a name="l00163"></a>00163     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, kind());
+<a name="l00163"></a>00163     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00164"></a>00164     <span class="keywordflow">return</span> _attributes;
 <a name="l00165"></a>00165 }
 <a name="l00166"></a>00166 
-<a name="l00167"></a>00167 <span class="keyword">const</span> ast_entry::child_list&amp; ast_entry::children()<span class="keyword"> const</span>
+<a name="l00167"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#aba541bb111cadc9dc80399c226711eeb">00167</a> <span class="keyword">const</span> ast_entry::child_list&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#aba541bb111cadc9dc80399c226711eeb">ast_entry::children</a>()<span class="keyword"> const</span>
 <a name="l00168"></a>00168 <span class="keyword"></span>{
-<a name="l00169"></a>00169     check_kind({ ast_entry_kind::complex, ast_entry_kind::document }, kind());
+<a name="l00169"></a>00169     check_kind({ ast_entry_kind::complex, ast_entry_kind::document }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00170"></a>00170     <span class="keywordflow">return</span> _children;
 <a name="l00171"></a>00171 }
 <a name="l00172"></a>00172 
-<a name="l00173"></a>00173 ast_entry::child_list&amp; ast_entry::children()
+<a name="l00173"></a>00173 ast_entry::child_list&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#aba541bb111cadc9dc80399c226711eeb">ast_entry::children</a>()
 <a name="l00174"></a>00174 {
-<a name="l00175"></a>00175     check_kind({ ast_entry_kind::complex, ast_entry_kind::document }, kind());
+<a name="l00175"></a>00175     check_kind({ ast_entry_kind::complex, ast_entry_kind::document }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00176"></a>00176     <span class="keywordflow">return</span> _children;
 <a name="l00177"></a>00177 }
 <a name="l00178"></a>00178 
-<a name="l00179"></a>00179 <span class="keyword">const</span> std::string&amp; ast_entry::comment()<span class="keyword"> const</span>
+<a name="l00179"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a85c3e3b8241ef83bca567f4dc4fb4fbb">00179</a> <span class="keyword">const</span> std::string&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#a85c3e3b8241ef83bca567f4dc4fb4fbb">ast_entry::comment</a>()<span class="keyword"> const</span>
 <a name="l00180"></a>00180 <span class="keyword"></span>{
-<a name="l00181"></a>00181     check_kind({ ast_entry_kind::comment, ast_entry_kind::simple, ast_entry_kind::complex }, kind());
+<a name="l00181"></a>00181     check_kind({ <a class="code" href="classnginxconfig_1_1ast__entry.html#a85c3e3b8241ef83bca567f4dc4fb4fbb">ast_entry_kind::comment</a>, ast_entry_kind::simple, ast_entry_kind::complex }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00182"></a>00182     <span class="keywordflow">return</span> _comment;
 <a name="l00183"></a>00183 }
 <a name="l00184"></a>00184 
-<a name="l00185"></a>00185 std::string&amp; ast_entry::comment()
+<a name="l00185"></a>00185 std::string&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#a85c3e3b8241ef83bca567f4dc4fb4fbb">ast_entry::comment</a>()
 <a name="l00186"></a>00186 {
-<a name="l00187"></a>00187     check_kind({ ast_entry_kind::comment, ast_entry_kind::simple, ast_entry_kind::complex }, kind());
+<a name="l00187"></a>00187     check_kind({ <a class="code" href="classnginxconfig_1_1ast__entry.html#a85c3e3b8241ef83bca567f4dc4fb4fbb">ast_entry_kind::comment</a>, ast_entry_kind::simple, ast_entry_kind::complex }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00188"></a>00188     <span class="keywordflow">return</span> _comment;
 <a name="l00189"></a>00189 }
 <a name="l00190"></a>00190 
-<a name="l00191"></a>00191 <span class="keyword">const</span> std::string&amp; ast_entry::name()<span class="keyword"> const</span>
+<a name="l00191"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a8c96ee4c3c08fade3909d33257bee4e5">00191</a> <span class="keyword">const</span> std::string&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#a8c96ee4c3c08fade3909d33257bee4e5">ast_entry::name</a>()<span class="keyword"> const</span>
 <a name="l00192"></a>00192 <span class="keyword"></span>{
-<a name="l00193"></a>00193     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, kind());
+<a name="l00193"></a>00193     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00194"></a>00194     <span class="keywordflow">return</span> _name;
 <a name="l00195"></a>00195 }
 <a name="l00196"></a>00196 
-<a name="l00197"></a>00197 std::string&amp; ast_entry::name()
+<a name="l00197"></a>00197 std::string&amp; <a class="code" href="classnginxconfig_1_1ast__entry.html#a8c96ee4c3c08fade3909d33257bee4e5">ast_entry::name</a>()
 <a name="l00198"></a>00198 {
-<a name="l00199"></a>00199     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, kind());
+<a name="l00199"></a>00199     check_kind({ ast_entry_kind::complex, ast_entry_kind::simple }, <a class="code" href="classnginxconfig_1_1ast__entry.html#a3cb0019bb58cb0fb862df498370c6fbc">kind</a>());
 <a name="l00200"></a>00200     <span class="keywordflow">return</span> _name;
 <a name="l00201"></a>00201 }
 <a name="l00202"></a>00202 
 <a name="l00203"></a>00203 <span class="preprocessor">#define NGINXCONFIG_AST_ENTRY_TIE_TUPLE(x)                                                                             \</span>
 <a name="l00204"></a>00204 <span class="preprocessor">    std::tie((x)._kind, (x)._name, (x)._attributes, (x)._children, (x)._comment)</span>
 <a name="l00205"></a>00205 <span class="preprocessor"></span>
-<a name="l00206"></a>00206 <span class="keywordtype">bool</span> ast_entry::operator==(<span class="keyword">const</span> ast_entry&amp; other)<span class="keyword"> const</span>
+<a name="l00206"></a><a class="code" href="classnginxconfig_1_1ast__entry.html#a7c808e111ef0d3c51aa8431218b60265">00206</a> <span class="keywordtype">bool</span> <a class="code" href="classnginxconfig_1_1ast__entry.html#a7c808e111ef0d3c51aa8431218b60265">ast_entry::operator==</a>(<span class="keyword">const</span> <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a>&amp; other)<span class="keyword"> const</span>
 <a name="l00207"></a>00207 <span class="keyword"></span>{
 <a name="l00208"></a>00208     <span class="keywordflow">return</span> NGINXCONFIG_AST_ENTRY_TIE_TUPLE(*<span class="keyword">this</span>) == NGINXCONFIG_AST_ENTRY_TIE_TUPLE(other);
 <a name="l00209"></a>00209 }
 <a name="l00210"></a>00210 
-<a name="l00211"></a>00211 <span class="keywordtype">bool</span> ast_entry::operator!=(<span class="keyword">const</span> ast_entry&amp; other)<span class="keyword"> const</span>
+<a name="l00211"></a>00211 <span class="keywordtype">bool</span> ast_entry::operator!=(<span class="keyword">const</span> <a class="code" href="classnginxconfig_1_1ast__entry.html">ast_entry</a>&amp; other)<span class="keyword"> const</span>
 <a name="l00212"></a>00212 <span class="keyword"></span>{
 <a name="l00213"></a>00213     <span class="keywordflow">return</span> NGINXCONFIG_AST_ENTRY_TIE_TUPLE(*<span class="keyword">this</span>) != NGINXCONFIG_AST_ENTRY_TIE_TUPLE(other);
 <a name="l00214"></a>00214 }
@@ -309,7 +309,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
