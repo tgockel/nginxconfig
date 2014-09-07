@@ -14,20 +14,18 @@ Compiler Support
  - Supported
      - GCC 4.9+
      - GCC 4.8 (with [Boost.Regex][Boost.Regex])
- - Potential
-     - Clang 3.4+
+     - Clang 3.3+ (with [Boost.Regex][Boost.Regex])
  - Unplanned
      - MSVC
 
-While GCC 4.8 is supported, you must compile it with `make USE_BOOST_REGEX=1`.
-GCC versions below 4.8 will happy compile regular expressions, but will fail at runtime with a `regex_error`, which is
- not very useful.
-However, you can use [Boost.Regex][Boost.Regex] as the regular expression engine for GCC 4.8.
+While GCC 4.8 and Clang 3.3 are supported, you must compile them with `make USE_BOOST_REGEX=1`.
+Early versions will happy compile regular expressions, but will fail at runtime with a `regex_error`, which is not very
+ useful.
+However, you can use [Boost.Regex][Boost.Regex] as the regular expression engine for compilers with incomplete `<regex>`
+ implementations.
 The downside of this is your application must link with the Boost libraries (`-lboost_regex -lboost_system`).
 
-Support for Clang would certainly not be frowned upon, but I am not planning on doing so, as I only need to control
- nginx from an application compiled with GCC.
-Support for MSVC probably would be frowned upon, since nobody uses nginx on Windows.
+There is currently no plan for supporting MSVC, since nobody uses nginx on Windows.
 
 Future
 ======
