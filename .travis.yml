@@ -10,11 +10,13 @@ before_install:
 - cp config/travisci_rsa ~/.ssh/id_rsa
 - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 - sudo apt-add-repository --yes ppa:boost-latest/ppa
+- sudo sh -c 'echo "deb http://llvm.org/apt/precise/ llvm-toolchain-precise main" >> /etc/apt/sources.list'
 - sudo apt-get update
 install:
-- sudo apt-get install --yes g++-4.8 libboost1.55-all-dev doxygen graphviz
+- sudo apt-get install --yes g++-4.8 clang-3.3 libboost1.55-all-dev doxygen graphviz
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 script:
-- make -j test USE_BOOST_REGEX=1
+- make -j BUILD_DIR=build/release-gcc   CXX_COMPILER=g++     USE_BOOST_REGEX=1 test
+- make -j BUILD_DIR=build/release-clang CXX_COMPILER=clang++ USE_BOOST_REGEX=1 test CXX_WARNINGS=''
 after_success:
 - ./config/publish-doxygen
