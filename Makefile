@@ -52,7 +52,7 @@ define MAKEFILE_EXTENSION_TEMPLATE
 endef
 $(foreach extension,$(MAKEFILE_EXTENSIONS),$(eval $(call MAKEFILE_EXTENSION_TEMPLATE,$(extension))))
 
-NGINXCONFIG_VERSION ?= 0.1.2
+NGINXCONFIG_VERSION ?= 0.1.3
 
 ################################################################################
 # Configuration                                                                #
@@ -234,7 +234,8 @@ define INSTALL_TEMPLATE
 	$$(QQ)echo " INSTL $1 -> $$(INSTALL_DIR)"
 	$$(QQ)mkdir -p $$(INSTALL_DIR)/lib
 	$$Q$(INSTALL) $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so $$(INSTALL_DIR)/lib
-	$$Q$(INSTALL) --recursive $$(HEADER_DIR)/$1 $$(INSTALL_DIR)/include
+	$$(QQ)mkdir -p $$(INSTALL_DIR)/include
+	$$Q$(INSTALL) --recursive $$(HEADER_DIR)/$(1) $$(INSTALL_DIR)/include/$(1)
 endef
 
 $(foreach lib,$(LIBRARIES),$(eval $(call INSTALL_TEMPLATE,$(lib))))
