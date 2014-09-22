@@ -160,10 +160,10 @@ line_components line_components::create_from_line(const std::string& line)
         out.attributes = split_attributes(results[2]);
         const std::string& tok = results[3];
         out.category = tok.size() == 0 ? line_kind::comment
-                    : tok[0] == '{'    ? line_kind::complex_start
-                    : tok[0] == '}'    ? line_kind::complex_end
-                    : tok[0] == ';'    ? line_kind::simple
-                    :                    line_kind::unknown;
+                     : tok[0] == '{'    ? line_kind::complex_start
+                     : tok[0] == '}'    ? line_kind::complex_end
+                     : tok[0] == ';'    ? line_kind::simple
+                     :                    line_kind::unknown;
         out.comment = results[5];
         NGINXCONFIG_DEBUG_PRINT(out.comment);
     }
