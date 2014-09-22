@@ -7,9 +7,18 @@ before_install:
 install:
 - sudo apt-get install --yes g++-4.8 clang-3.3 libboost1.55-all-dev
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
+env:
+  matrix:
+    - CONF=debug   COMPILER=g++
+    - CONF=release COMPILER=g++
+    - CONF=release COMPILER=clang++
 script:
-- make -j BUILD_DIR=build/release-gcc   CXX_COMPILER=g++     USE_BOOST_REGEX=1 test
-- make -j BUILD_DIR=build/release-clang CXX_COMPILER=clang++ USE_BOOST_REGEX=1 test CXX_WARNINGS=''
+- make test
+       -j
+       BUILD_DIR=build/${CONF}-${COMPILER}
+       CXX_COMPILER=${COMPILER}
+       USE_BOOST_REGEX=1
+       CXX_WARNINGS='-Wall -Wextra'
 after_success:
 - sudo apt-get install doxygen graphviz
 - openssl aes-256-cbc
