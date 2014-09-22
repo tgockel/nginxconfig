@@ -241,10 +241,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00160"></a>00160         out.attributes = split_attributes(results[2]);
 <a name="l00161"></a>00161         <span class="keyword">const</span> std::string&amp; tok = results[3];
 <a name="l00162"></a>00162         out.category = tok.size() == 0 ? line_kind::comment
-<a name="l00163"></a>00163                     : tok[0] == <span class="charliteral">&#39;{&#39;</span>    ? line_kind::complex_start
-<a name="l00164"></a>00164                     : tok[0] == <span class="charliteral">&#39;}&#39;</span>    ? line_kind::complex_end
-<a name="l00165"></a>00165                     : tok[0] == <span class="charliteral">&#39;;&#39;</span>    ? line_kind::simple
-<a name="l00166"></a>00166                     :                    line_kind::unknown;
+<a name="l00163"></a>00163                      : tok[0] == <span class="charliteral">&#39;{&#39;</span>    ? line_kind::complex_start
+<a name="l00164"></a>00164                      : tok[0] == <span class="charliteral">&#39;}&#39;</span>    ? line_kind::complex_end
+<a name="l00165"></a>00165                      : tok[0] == <span class="charliteral">&#39;;&#39;</span>    ? line_kind::simple
+<a name="l00166"></a>00166                      :                    line_kind::unknown;
 <a name="l00167"></a>00167         out.comment = results[5];
 <a name="l00168"></a>00168         NGINXCONFIG_DEBUG_PRINT(out.comment);
 <a name="l00169"></a>00169     }
