@@ -52,7 +52,7 @@ define MAKEFILE_EXTENSION_TEMPLATE
 endef
 $(foreach extension,$(MAKEFILE_EXTENSIONS),$(eval $(call MAKEFILE_EXTENSION_TEMPLATE,$(extension))))
 
-NGINXCONFIG_VERSION ?= 0.1.3
+NGINXCONFIG_VERSION ?= 0.1.4
 
 ################################################################################
 # Configuration                                                                #
@@ -115,7 +115,7 @@ DEP_DIR     ?= $(BUILD_DIR)/dep
 LIB_DIR     ?= $(BUILD_DIR)/lib
 DOC_DIR     ?= $(BUILD_ROOT)/doc
 BIN_DIR     ?= $(BUILD_DIR)/bin
-INSTALL_DIR ?= /usr
+DESTDIR     ?= /usr
 
 ifeq ($(VERBOSE),)
   Q  := @
@@ -231,11 +231,11 @@ $(foreach test,$(TESTS),$(eval $(call TEST_TEMPLATE,$(test))))
 
 define INSTALL_TEMPLATE
   install_$(1) : $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so
-	$$(QQ)echo " INSTL $1 -> $$(INSTALL_DIR)"
-	$$(QQ)mkdir -p $$(INSTALL_DIR)/lib
-	$$Q$(INSTALL) $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so $$(INSTALL_DIR)/lib
-	$$(QQ)mkdir -p $$(INSTALL_DIR)/include
-	$$Q$(INSTALL) --recursive $$(HEADER_DIR)/$(1) $$(INSTALL_DIR)/include/$(1)
+	$$(QQ)echo " INSTL $1 -> $$(DESTDIR)"
+	$$(QQ)mkdir -p $$(DESTDIR)/lib
+	$$Q$(INSTALL) $$(LIB_DIR)/$$(call VERSIONED_SO,$1,$$(NGINXCONFIG_VERSION)) $$(LIB_DIR)/lib$1.so $$(DESTDIR)/lib
+	$$(QQ)mkdir -p $$(DESTDIR)/include
+	$$Q$(INSTALL) --recursive $$(HEADER_DIR)/$(1) $$(DESTDIR)/include/$(1)
 endef
 
 $(foreach lib,$(LIBRARIES),$(eval $(call INSTALL_TEMPLATE,$(lib))))
