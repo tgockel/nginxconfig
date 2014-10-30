@@ -23,6 +23,15 @@
 #   define NGINXCONFIG_USE_BOOST_REGEX 0
 #endif
 
+/** \def NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION
+ *  Should we check the regex implementation? If set to \c 1 (default), this file will fail to compile if it does not
+ *  believe your standard library implementation has a working regular expression engine. Set this value to \c 0 to
+ *  disable this check if you know your standard library implementation works fine.
+**/
+#ifndef NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION
+#   define NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION 1
+#endif
+
 #include <nginxconfig/ast.hpp>
 #include <nginxconfig/parse.hpp>
 #include <nginxconfig/parse_types.hpp>
@@ -42,9 +51,11 @@
 #if NGINXCONFIG_USE_BOOST_REGEX
 #   include <boost/regex.hpp>
 #else
-#   ifdef __GNUC__
-#       if (__GNUC__ == 4) && (__GNUC_MINOR__ < 9)
-#           error "Cannot use Standard Library regex implementation with GCC < 4.9! Please compile with NGINXCONFIG_USE_BOOST_REGEX=1."
+#   if NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION
+#       ifdef __GNUC__
+#           if (__GNUC__ == 4) && (__GNUC_MINOR__ < 9)
+#               error "Cannot use Standard Library regex implementation with GCC < 4.9! Please compile with NGINXCONFIG_USE_BOOST_REGEX=1 (or disable this check with NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION=0)."
+#           endif
 #       endif
 #   endif
 #   include <regex>
