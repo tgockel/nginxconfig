@@ -117,6 +117,7 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b2b483f770917787ec3363c9acd7bb2"></a><!-- doxytag: member="parse.cpp::NGINXCONFIG_DEBUG" ref="a9b2b483f770917787ec3363c9acd7bb2" args="" -->
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>NGINXCONFIG_DEBUG</b>&#160;&#160;&#160;0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#aa58a9d64dad02bc42efa73365060463b">NGINXCONFIG_USE_BOOST_REGEX</a>&#160;&#160;&#160;0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse_8cpp.html#a1ddabf971285c385ba4611b655b81716">NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION</a>&#160;&#160;&#160;1</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a79fad3dd2c683fb192a6cc08d5774b6b"></a><!-- doxytag: member="parse.cpp::NGINXCONFIG_DEBUG_PRINT" ref="a79fad3dd2c683fb192a6cc08d5774b6b" args="(x)" -->
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>NGINXCONFIG_DEBUG_PRINT</b>(x)</td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
@@ -135,6 +136,22 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>nginxconfig::parser::
 
 <p>Definition in file <a class="el" href="parse_8cpp_source.html">parse.cpp</a>.</p>
 </div><hr/><h2>Define Documentation</h2>
+<a class="anchor" id="a1ddabf971285c385ba4611b655b81716"></a><!-- doxytag: member="parse.cpp::NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION" ref="a1ddabf971285c385ba4611b655b81716" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="parse_8cpp.html#a1ddabf971285c385ba4611b655b81716">NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION</a>&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Should we check the regex implementation? If set to <code>1</code> (default), this file will fail to compile if it does not believe your standard library implementation has a working regular expression engine. Set this value to <code>0</code> to disable this check if you know your standard library implementation works fine. </p>
+
+<p>Definition at line <a class="el" href="parse_8cpp_source.html#l00032">32</a> of file <a class="el" href="parse_8cpp_source.html">parse.cpp</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aa58a9d64dad02bc42efa73365060463b"></a><!-- doxytag: member="parse.cpp::NGINXCONFIG_USE_BOOST_REGEX" ref="aa58a9d64dad02bc42efa73365060463b" args="" -->
 <div class="memitem">
 <div class="memproto">

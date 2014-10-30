@@ -1,5 +1,6 @@
 var parse_8cpp =
 [
+    [ "NGINXCONFIG_CHECK_REGEX_IMPLEMENTATION", "parse_8cpp.html#a1ddabf971285c385ba4611b655b81716", null ],
     [ "NGINXCONFIG_DEBUG", "parse_8cpp.html#a9b2b483f770917787ec3363c9acd7bb2", null ],
     [ "NGINXCONFIG_DEBUG_PRINT", "parse_8cpp.html#a79fad3dd2c683fb192a6cc08d5774b6b", null ],
     [ "NGINXCONFIG_USE_BOOST_REGEX", "parse_8cpp.html#aa58a9d64dad02bc42efa73365060463b", null ],
